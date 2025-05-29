@@ -36,7 +36,31 @@ The stages are:
 
 The pipeline is triggered by a `push` event to this repository.
 
-### 1. Make change to a file by adding current date and time
+### 1. Start the jenkins server
+Run the following command and start the jenkins server.  
+
+Note: The script automatically installs the required packages if not already installed.  
+
+[Terminal 1]
+```bash
+cd ~/ros2_ws/src/ros2_ci
+./start_jenkins.sh
+
+cat ~/webpage_ws/jenkins/jenkins__pid__url.txt
+```
+
+Expected Output:
+```bash
+To stop Jenkins, run:
+kill 18754
+
+Jenkins URL:
+https://i-02160f8104f117f8b.robotigniteacademy.com/8bab3219-1fe5-4a28-8469-70b3d139923b/jenkins/
+```
+
+Open the jenkins webpage using this URL.
+
+### 2. Make change to a file by adding current date and time
 
 [Terminal 2]
 ```bash
@@ -44,7 +68,7 @@ cd ~/ros2_ws/src/ros2_ci
 echo "Current date and time: $(date +"%Y%m%d at %H:%M:%S")" >> changeme.txt
 ```
 
-### 2. Make a new commit
+### 3. Make a new commit
 
 [Terminal 2]
 ``` bash
@@ -53,26 +77,10 @@ git add changeme.txt
 git commit -m "Commit: $(date +"%Y%m%d at %H:%M:%S")"
 ```
 
-### 3. Create a pull request
+### 4. Create a pull request
 Please create a pull request and wait for it to be accepted.
 
-### 4. Monitor Jenkins webpage 
-
-- Find the Jenkins webpage
-
-    [Terminal 2]
-    ```bash
-    cat ~/webpage_ws/jenkins/jenkins__pid__url.txt
-    ```
-
-    Expected Output:
-    ```bash
-    To stop Jenkins, run:
-    kill 18754
-
-    Jenkins URL:
-    https://i-02160f8104f117f8b.robotigniteacademy.com/8bab3219-1fe5-4a28-8469-70b3d139923b/jenkins/
-    ```
+### 5. Monitor Jenkins webpage
 - Open the Jenkins webpage
 
 - Monitor build process for `ROS2 Auto Test Pipeline` pipeline. Its output can be seen on the `Console Output`.
