@@ -58,6 +58,37 @@ pipeline {
                 }
             }
         }
+        stage('TEST2: FAILING TESTS') {
+            steps {
+                script {
+                    sh 'echo "==== TEST2: FAILING TESTS ===="'
+                    def failingtestCommand = '''
+                        sudo docker-compose exec -T gazebo bash -c '
+                            set -e
+                            source /opt/ros/galactic/setup.bash
+                            source ~/ros2_ws/install/setup.bash
+                            TEST_PASS=false colcon test --packages-select tortoisebot_waypoints --event-handler=console_direct+
+                            colcon test-result --all
+                        ' > failingtest_output.txt 2>&1
+                    '''
+
+                    def exitCode = sh(script: "${failingtestCommand}", returnStatus: true)
+
+                    echo "===== TEST OUTPUT ====="
+                    def testLog = readFile('failingtest_output.txt')
+                    echo testLog
+
+                    // Always archive the result
+                    archiveArtifacts artifacts: 'failingtest_output.txt', allowEmptyArchive: true
+
+                    // Optional: log a warning
+                    if (exitCode != 0) {
+                        echo "TEST2 failed with exit code ${exitCode} as expected"
+                        echo "Continue the pipeline.."
+                    }
+                }
+            }
+        }
     }
     post {
         always {
