@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  gazebo:
+    build:
+        context: /home/user/ros2_ws/src/
+        dockerfile: ./ros2_ci/Dockerfile
+    image: tortoisebot-ros2-gazebo:v1
+    container_name: gazebo2_container
+    stdin_open: true
+    tty: true
+    networks:
+      - ros2_network
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - ROS_HOSTNAME=gazebo2_container
+      - ROS_DISTRO=galactic
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - ROS_LOCALHOST_ONLY=0
+      - ROS_DOMAIN_ID=7
+      # - CYCLONEDDS_URI=file:///home/ttbot/cyclonedds.xml
+      # - DOCKER_HOSTIP=172.25.0.5
+      # - DOCKER_HOSTNAME=xterm1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    privileged: true
+
+networks:
+  ros2_network:
+    driver: bridge
