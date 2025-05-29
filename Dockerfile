@@ -62,6 +62,7 @@ ENV PATH="$PATH:/home/${USERNAME}/.local/bin/"
 
 # ===== Create and build workspace =====
 # RUN git clone -b ros2-galactic http://github.com/rigbetellabs/tortoisebot.git src/tortoisebot
+RUN git clone https://github.com/kailash197/cp23_ros2test_tortoisebot_waypoints.git src/tortoisebot_waypoints
 COPY --chown=${USER_UID}:${USER_GID} ./tortoisebot ${ROS2_WS}/src/tortoisebot
 
 # ===== Build =====

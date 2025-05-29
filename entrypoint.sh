@@ -13,7 +13,7 @@ set -e
 # Launch the ROS2 simulation for the TortoiseBot
 source /opt/ros/galactic/setup.bash
 source /home/ttbot/ros2_ws/install/setup.bash
-ros2 launch tortoisebot_bringup bringup.launch.py use_sim_time:=True
+ros2 launch tortoisebot_bringup bringup.launch.py use_sim_time:=True &
 
 # Launch the Waypoints Action Server for ROS2
 source /opt/ros/galactic/setup.bash

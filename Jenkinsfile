@@ -27,6 +27,7 @@ pipeline {
         stage('TEST1: PASSING TESTS') {
             steps {
                 script {
+                    sh 'echo "==== TEST1: PASSING TESTS ===="'
                     def testCommand = '''
                         sudo docker-compose exec -T gazebo bash -c '
                             set -e
@@ -60,7 +61,10 @@ pipeline {
     }
     post {
         always {
-            echo '==== PIPELINE COMPLETED ===="'
+            echo "==== CLEANUP DOCKER CONTAINER===="
+            sh 'sudo docker-compose down'
+
+            echo '==== PIPELINE COMPLETED ===='
             // Optional: Send test results via email or other notification
         }
     }
